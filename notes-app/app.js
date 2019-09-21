@@ -7,7 +7,7 @@ yargs.command({
   command: 'add',
   describe: 'Add a new note',
   handler: function() {
-    console.log('Adding new note');
+    console.log(chalk.red('Adding new note'));
   }
 });
 
