@@ -6,8 +6,15 @@ const getNotes = require('./notes.js');
 yargs.command({
   command: 'add',
   describe: 'Add a new note',
-  handler: function() {
-    console.log(chalk.red('Adding new note'));
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: function(argv) {
+    console.log('Title: ' + argv.title);
   }
 });
 
@@ -16,7 +23,7 @@ yargs.command({
   command: 'remove',
   describe: 'Remove a note',
   handler: function() {
-    console.log('Removing the note');
+    console.log(chalk.red('Removing new note'));
   }
 });
 
@@ -25,7 +32,7 @@ yargs.command({
   command: 'list',
   describe: 'List notes',
   handler: function() {
-    console.log('Listing notes');
+    console.log(chalk.blue('Listing notes'));
   }
 });
 
@@ -34,6 +41,8 @@ yargs.command({
   command: 'read',
   describe: 'Read note',
   handler: function() {
-    console.log('Reading note');
+    console.log(chalk.blue('Reading note'));
   }
 });
+
+yargs.parse();
