@@ -1,0 +1,6 @@
+>,<, >=, <=, =, <>, !=
+and, or
+in(...,...,...)
+between ... and ...
+is null, is not null
+like ' ', not like ' '

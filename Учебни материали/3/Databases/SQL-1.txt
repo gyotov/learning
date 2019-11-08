@@ -1,0 +1,36 @@
+/*
+	Long comment
+*/
+
+-- All from clients
+--select * from klienti
+--where grad = 'Варна'
+
+-- All from stoki
+--select * from stoki
+--where Ed_cena > 7
+
+--Varna and Sofiq
+--select * from klienti
+--where grad = 'Варна' or grad = 'София'
+--where grad IN ('Варна', 'София')
+
+
+-- Stoki between 2 and 50lv
+--select * from stoki
+--where Ed_cena >= 2 and Ed_cena <= 50
+
+--select * from klienti
+--where Email is null or Email = ''
+
+--Clients without email, not from Varna or Burgas
+--select * from klienti
+--where (Email is null or Email = '') and (Grad != 'Варна' and Grad != 'Бургас')
+
+--Clients with first name Ivan
+--select * from klienti
+--where Ime_Klient like 'Иван %'
+
+--Show clients with email in gmail.com
+--select * from klienti
+--where Email like '%@gmail.com'

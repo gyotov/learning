@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+  // vector <pair<int,int>> name;
+  // v[0].first
+  // v[0].second
+  // push_back(make_pair(5, 2))
+
+  // Да се прочете файла words.txt и да се преброи всяка дума,
+  // колко пъти се среща. Да се използва vector от тип pair
+  // думa | срещания
+
+  vector <pair<string, int>> vec;
+
+  // Отваряне и прочитане на файла
+  fstream fp;
+  fp.open("d:\\data\\words.txt", ios::in);
+
+  if (!fp.is_open())
+  {
+    cout << "Error to open file!\n";
+    return -1;
+  }
+  else {
+    while (!fp.eof())
+    {
+      string word;
+      getline(fp, word);
+      cout << word << endl;
+
+      // Попълване на вектора
+      int k;
+      for (k = 0; k < vec.size(); k++)
+      {
+        if (word == vec[k].first)
+        {
+          vec[k].second++;
+          break;
+        }
+      }
+
+      if (k == vec.size())
+      {
+        vec.push_back(make_pair(word, 1));
+      }
+    }
+
+    fp.close();
+  }
+
+  cout << "Vectora e:\n";
+  for (int i = 0; i < vec.size(); i++)
+  {
+    cout << vec[i].first << " -> " << vec[i].second << endl;
+  }
+
+  // Колко е средният брой срещания на думите?
+  double sredno = 0;
+  for (vector<pair<string, int>>::iterator t = vec.begin(); t != vec.end(); t++)
+  {
+    sredno += (*t).second;
+  }
+  sredno = sredno / vec.size();
+  cout << "Sredniqt broi e: " << sredno;
+
+  // 2. Да се преместят тези думи във втори вектор с повече от средния брой срещания
+  vector <pair<string, int>> vec2;
+  for (int i = 0; i < vec.size(); i++)
+  {
+    if (vec[i].second > sredno)
+    {
+      vec2.push_back(vec[i]);
+      //vec2.push_back(make_pair(vec[i].first, vec[i].second));
+    }
+  }
+
+  // Извеждаме втори вектор на екрана
+  cout << "\n";
+  cout << "Nad sredniqt broi sa:\n";
+  for (int i = 0; i < vec2.size(); i++)
+  {
+    cout << vec2[i].first << " -> " << vec2[i].second << endl;
+  }
+
+  // 3. Запишете първият вектор във файл - new-words.txt, във формат:
+  // word[tab][tab]count
+  fstream fp2;
+  fp2.open("d:\\data\\new-words.txt", ios::out);
+
+  for (int i = 0; i < vec.size(); i++)
+  {
+    fp2 << vec[i].first << "\t\t" << vec[i].second << "\n";
+  }
+
+  fp2.close();
+
+  // 4. От пъррвия вектор да се изведе най-често срещаната дума
+  int maxIndex = 0;
+
+  for (int i = 1; i < vec.size(); i++)
+  {
+    if (vec[i].second > vec[maxIndex].second)
+    {
+      maxIndex = i;
+    }
+  }
+
+  cout << "Nai-sre6tanata duma e " << vec[maxIndex].first << "\n";
+
+  // 5. От първият вектор да се изведе най-дългата дума
+  for (int i = 1; i < vec.size(); i++)
+  {
+    if (vec[i].first.length() > vec[maxIndex].first.length())
+    {
+      maxIndex = i;
+    }
+  }
+
+  cout << "Naj-dalgata duma e " << vec[maxIndex].first << endl;
+}
