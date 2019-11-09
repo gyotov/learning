@@ -1,17 +1,14 @@
 const fs = require('fs');
 const chalk = require('chalk');
 
-const getNotes = function() {
-  return 'Success';
-};
-
-const addNote = function(title, body) {
+/*
+    Add note
+*/
+const addNote = (title, body) => {
   const notes = loadNotes();
-  const duplicateNotes = notes.filter(function(note) {
-    return note.title === title;
-  });
+  const duplicateNote = notes.find(note => note.title === title);
 
-  if (duplicateNotes.length === 0) {
+  if (!duplicateNote) {
     notes.push({
       title: title,
       body: body
@@ -24,12 +21,15 @@ const addNote = function(title, body) {
   }
 };
 
-const saveNotes = function(notes) {
+/*
+    Save notes
+*/
+const saveNotes = notes => {
   const dataJSON = JSON.stringify(notes);
   fs.writeFileSync('notes.json', dataJSON);
 };
 
-const loadNotes = function() {
+const loadNotes = () => {
   try {
     const dataBuffer = fs.readFileSync('notes.json');
     const dataJSON = dataBuffer.toString();
@@ -39,11 +39,12 @@ const loadNotes = function() {
   }
 };
 
-const removeNote = function(title) {
+/*
+    Remove note
+*/
+const removeNote = title => {
   const notes = loadNotes();
-  const filterNotes = notes.filter(function(note) {
-    return note.title !== title;
-  });
+  const filterNotes = notes.filter(note => note.title !== title);
 
   if (notes.length > filterNotes.length) {
     console.log(chalk.green('Note removed!'));
@@ -53,8 +54,41 @@ const removeNote = function(title) {
   }
 };
 
+/*
+    List notes
+*/
+const listNotes = () => {
+  const notes = loadNotes();
+
+  if (notes.length > 0) {
+    console.log(chalk.blue('Your notes:'));
+
+    notes.forEach(note => {
+      console.log(chalk.yellow(note.title));
+    });
+  } else {
+    console.log(chalk.red('You have no notes!'));
+  }
+};
+
+/*
+    Read note
+*/
+const readNote = title => {
+  const notes = loadNotes();
+  const targetNote = notes.find(note => note.title === title);
+
+  if (targetNote) {
+    console.log(chalk.blue(targetNote.title));
+    console.log(chalk.yellow(targetNote.body));
+  } else {
+    console.log(chalk.red('No note found!'));
+  }
+};
+
 module.exports = {
-  getNotes: getNotes,
   addNote: addNote,
-  removeNote: removeNote
+  removeNote: removeNote,
+  listNotes: listNotes,
+  readNote: readNote
 };
