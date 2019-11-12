@@ -1,0 +1,60 @@
+--Обновяване на таблица Продажби
+--update prodajbi
+--set
+--data_prodajba = DATEADD(year, 5, data_prodajba)
+
+--Продажбите след 10 октомври 2019
+select * from prodajbi
+where data_prodajba > '10.10.2019'
+
+-- Продажбите след 25 октомври 2019
+select * from prodajbi
+where data_prodajba > '2019-10-25'
+--Препоръка - формат като в таблицата
+
+-- Продажбите между 14 февруари 2019 и 11 ноември 2019 (вкл.)
+--Вариант 1 ...and...
+select * from prodajbi
+where data_prodajba >= '2019-02-14' and data_prodajba <= '2019-11-11'
+-- Вариант 2 between... and...
+select * from prodajbi
+where data_prodajba between '2019-02-14' and '2019-11-11'
+
+-- Продажбите през 2019
+select * from prodajbi
+where year(data_prodajba) = 2019
+
+-- Продажбите от текущата година
+--select *,getdate() from prodajbi
+--where year(data_prodajba) = year(getdate())
+select * from prodajbi
+where DATEDIFF(year, data_prodajba, getdate()) = 0
+
+-- Продажбите от текущия месец
+select * from Prodajbi
+where DATEDIFF(month, data_prodajba, getdate()) = 0
+--year(data_prodajba) = year(getdate())
+--and
+--month(data_prodajba) = month(getdate())
+
+-- Продажбите от днес
+select * from Prodajbi
+where DATEDIFF(day, data_prodajba, getdate()) = 0
+--year(data_prodajba) = year(getdate())
+--and
+--month(data_prodajba) = month(getdate())
+--and
+--day(data_prodajba) = day(getdate())
+
+-- Продажби от днес
+-- cast, convert
+select * from Prodajbi
+where cast(getdate() as date) = cast(data_prodajba as date)
+
+-- Fix between
+select * from prodajbi
+where cast(data_prodajba as date) between '2019-2-14' and '2019-11-11'
+
+-- Продажбите от последните 6 дни
+select * from prodajbi
+where (DATEDIFF(day, data_prodajba, getdate())) >= 0 and (DATEDIFF(day, data_prodajba, getdate()) < 6)
