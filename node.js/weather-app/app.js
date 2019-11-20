@@ -1,17 +1,23 @@
 const geocode = require('./utils/geocode.js');
 const forecast = require('./utils/forecast.js');
 
-geocode('Varna Bulgaria', (error, data) => {
-  if (error) {
-    return console.log('Error: ', error);
-  }
+const address = process.argv[2];
 
-  forecast(data.latitude, data.longitude, (error, forecastData) => {
+if (!address) {
+  console.log('Please, provide an address!');
+} else {
+  geocode(address, (error, data) => {
     if (error) {
       return console.log('Error: ', error);
     }
 
-    console.log(data.location);
-    console.log(forecastData);
+    forecast(data.latitude, data.longitude, (error, forecastData) => {
+      if (error) {
+        return console.log('Error: ', error);
+      }
+
+      console.log(data.location);
+      console.log(forecastData);
+    });
   });
-});
+}
