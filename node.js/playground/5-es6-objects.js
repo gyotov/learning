@@ -27,7 +27,7 @@ const product = {
 // console.log(productStock);
 // console.log(productRating);
 
-const transaction = (type, { label, stock }) => {
+const transaction = (type, { label = 'No label', stock = 0 }) => {
   console.log(type, label, stock);
 };
 
